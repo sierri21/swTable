@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        .table {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 900px;
+            margin: 0 auto;
+        }
+        .table__header,
+        .table__body_row {
+            display: flex;
+            justify-content: space-around;
+             
+        }
+        .table__header p,
+        .table__body_row p {
+            height: 2em;
+            border: 1px solid gray;
+            flex-basis: 25%;
+            text-align: center;
+            line-height: 2em;
+        }
+    </style>
+</head>
+<body>
+    <div id="StarWarsPersons">
+        <div class="table">
+            <div class="table__header">
+                <p>Name</p>
+                <p>Gender</p>
+                <p>Mass</p>
+                <p>Height</p>
+            </div>
+            <div class="table__body">
+                <div 
+                    v-for="(item, index) in data"
+                    :key="index" 
+                    class="table__body_row"
+                >
+                    <p>{{item.name}}</p>
+                    <p>{{item.gender}}</p>
+                    <p>{{item.mass}}</p>
+                    <p>{{item.height}}</p>
+                </div>  
+            </div>
+        </div>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#StarWarsPersons',
+            data() {
+                return {
+                    data: []
+                }
+            },
+            methods: {
+                db() {
+                    fetch('https://swapi.dev/api/people')
+                        .then(response => response.json()) 
+                        .then(data => {
+                            console.log(data.results)
+                            this.data = data.results
+                        })
+                    }       
+            }, 
+            mounted() {
+                this.db()
+            },
+        })
+    </script>
+</body>
+</html>
